@@ -1,15 +1,17 @@
-import { useCart } from '@/entities/cart/useCart'
+import { useCartContext } from '@/entities/cart/CartContext'
 import { AddPizzaModal } from '@/features/add-to-cart/AddPizzaModal'
+import { CartStepper } from '@/features/order-stepper/OrderStepper'
 import { mockPizza } from '@/shared/api/mock'
 import type { Pizza } from '@/shared/types/pizza'
 import { PizzaList } from '@/widgetes/pizza-list/PizzaList'
-import { Box, Heading, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Heading, useDisclosure } from '@chakra-ui/react'
 import { useState } from 'react'
 
 export const HomePage = () => {
 	const [selectedPizza, setSelectedPizza] = useState<Pizza | null>(null)
 	const { onOpen, onClose, open } = useDisclosure()
-	const { addToCart, cart } = useCart()
+	const { addToCart, cart } = useCartContext()
+	const [activeStep, setActiveStep] = useState(0)
 
 	const handlePizzaSelect = (pizza: Pizza) => {
 		setSelectedPizza(pizza)
@@ -27,10 +29,29 @@ export const HomePage = () => {
 			<Heading as='h1' textAlign='center' color='orange.400'>
 				Конструктор пиццы
 			</Heading>
+			{activeStep === 0 ? (
+				<>
+					<PizzaList pizzas={mockPizza} onPizzaSelect={handlePizzaSelect} />
 
-			<PizzaList pizzas={mockPizza} onPizzaSelect={handlePizzaSelect} />
+					{cart.length > 0 && (
+						<Button width='100%' mt={4} onClick={() => setActiveStep(1)}>
+							Перейти к оформлению заказа
+						</Button>
+					)}
+				</>
+			) : (
+				<>
+					{/* <CartStepper/> */}
+					<CartStepper cart={cart} />
+				</>
+			)}
 
-			<AddPizzaModal pizza={selectedPizza} onClose={onClose} open={open} onAddToCart={handleAddToCart} />
+			<AddPizzaModal
+				pizza={selectedPizza}
+				onClose={onClose}
+				open={open}
+				onAddToCart={handleAddToCart}
+			/>
 		</Box>
 	)
 }
