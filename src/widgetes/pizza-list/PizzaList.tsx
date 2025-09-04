@@ -1,0 +1,17 @@
+import { PizzaCard } from '@/entities/pizza/PizzaCard'
+import type { Pizza } from '@/shared/types/pizza'
+import { SimpleGrid } from '@chakra-ui/react'
+
+interface PizzaListProps {
+	pizzas: Pizza[]
+}
+
+export const PizzaList = ({ pizzas }: PizzaListProps) => {
+	return (
+		<SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap={20} mt={10}  >
+			{pizzas.map(pizza => (
+				<PizzaCard key={pizza.id} pizza={pizza} />
+			))}
+		</SimpleGrid>
+	)
+}
