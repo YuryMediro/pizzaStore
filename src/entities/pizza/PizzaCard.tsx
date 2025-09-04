@@ -3,9 +3,10 @@ import { Button, Card, Heading, Image, Stack, Text } from '@chakra-ui/react'
 
 interface PizzaCardProps {
 	pizza: Pizza
+	onSelect: () => void
 }
 
-export const PizzaCard = ({ pizza }: PizzaCardProps) => {
+export const PizzaCard = ({ pizza, onSelect }: PizzaCardProps) => {
 	return (
 		<Card.Root maxW='sm' borderRadius='lg' overflow='hidden' boxShadow='md'>
 			<Image src={pizza.image} alt={pizza.name} objectFit='cover' />
@@ -20,7 +21,7 @@ export const PizzaCard = ({ pizza }: PizzaCardProps) => {
 						Дополнительные ингредиенты:{' '}
 						{pizza.ingredients.map(ingredient => ingredient.name).join(', ')}
 					</Text>
-					<Button>Добавить в корзину</Button>
+					<Button onClick={onSelect}>Добавить в корзину</Button>
 				</Stack>
 			</Card.Body>
 		</Card.Root>
