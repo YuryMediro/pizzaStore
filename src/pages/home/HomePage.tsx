@@ -5,7 +5,7 @@ import { Box, Heading } from '@chakra-ui/react'
 export const HomePage = () => {
 	return (
 		<Box>
-			<Heading as='h1' textAlign='center' color='blue.600'>
+			<Heading as='h1' textAlign='center' color='orange.400'>
 				Конструктор пиццы
 			</Heading>
 

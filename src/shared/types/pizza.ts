@@ -11,3 +11,8 @@ export interface Pizza {
 	image: string
 	ingredients: Ingredient[]
 }
+
+export interface CartItem extends Pizza {
+	quantity: number
+	selectedIngredients: string[]
+}
