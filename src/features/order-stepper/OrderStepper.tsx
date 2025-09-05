@@ -5,6 +5,7 @@ import { CartItemList } from '@/widgetes/cart-items-list/CartItemList'
 interface CartStepperProps {
 	cart: CartItem[]
 	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
+	totalPrice: number
 }
 
 const steps = [
@@ -21,7 +22,11 @@ const ConfirmationStepContent = () => {
 	return <Box p={4}></Box>
 }
 
-export const CartStepper = ({ cart, onRemoveItem }: CartStepperProps) => {
+export const CartStepper = ({
+	cart,
+	onRemoveItem,
+	totalPrice,
+}: CartStepperProps) => {
 	return (
 		<Steps.Root defaultStep={0} count={steps.length} variant='subtle' mt={15}>
 			<VStack gap={8} width='100%'>
@@ -47,7 +52,7 @@ export const CartStepper = ({ cart, onRemoveItem }: CartStepperProps) => {
 
 				<Box width='100%'>
 					<Steps.Content index={0}>
-						<CartItemList cart={cart} onRemoveItem={onRemoveItem} />
+						<CartItemList cart={cart} onRemoveItem={onRemoveItem} totalPrice ={totalPrice} />
 					</Steps.Content>
 
 					<Steps.Content index={1}>

@@ -53,5 +53,20 @@ export const useCart = () => {
 		saveCart(newCart)
 	}
 
-	return { addToCart, cart, removeFromCart }
+	const getTotalPrice = () =>
+		cart.reduce(
+			(total, item) =>
+				total +
+				(item.basePrice +
+					item.selectedIngredients.reduce(
+						(sum, ingId) =>
+							sum +
+							(item.ingredients.find(ing => ing.id === ingId)?.price || 0),
+						0
+					)) *
+					item.quantity,
+			0
+		)
+
+	return { addToCart, cart, removeFromCart, getTotalPrice }
 }

@@ -6,6 +6,7 @@ type CartContextType = {
 	cart: CartItem[]
 	addToCart: (pizza: Pizza, selectedIngredients: string[]) => void
 	removeFromCart: (itemId: string, selectedIngredients: string[]) => void
+	getTotalPrice: () => number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
