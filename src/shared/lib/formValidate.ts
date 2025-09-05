@@ -59,18 +59,18 @@ export const useValidForm = ({
 		onFormValidityChange(isFormValid)
 	}, [formData, isFormValid])
 
-    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const formattedPhone = formatPhoneNumber(e.target.value)
-			setFormData(prev => ({ ...prev, phone: formattedPhone }))
-		}
+	const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const formattedPhone = formatPhoneNumber(e.target.value)
+		setFormData(prev => ({ ...prev, phone: formattedPhone }))
+	}
 
-		const handleBlur = (field: keyof UserInfo) => {
-			setTouched(prev => ({ ...prev, [field]: true }))
-		}
+	const handleBlur = (field: keyof UserInfo) => {
+		setTouched(prev => ({ ...prev, [field]: true }))
+	}
 
-		const handleChange = (field: keyof UserInfo, value: string) => {
-			setFormData(prev => ({ ...prev, [field]: value }))
-		}
+	const handleChange = (field: keyof UserInfo, value: string) => {
+		setFormData(prev => ({ ...prev, [field]: value }))
+	}
 	return {
 		formData,
 		touched,
