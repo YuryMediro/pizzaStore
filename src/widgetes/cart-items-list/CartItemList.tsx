@@ -1,5 +1,6 @@
+import { calculateItemPrice } from '@/shared/lib/calculateItemPrice'
 import type { CartItem } from '@/shared/types/pizza'
-import { Box, Button, HStack,  Text, VStack } from '@chakra-ui/react'
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
 
 interface CartItemListProps {
 	cart: CartItem[]
@@ -18,6 +19,7 @@ export const CartItemList = ({
 				const selectedIngs = item.ingredients.filter(ing =>
 					item.selectedIngredients.includes(ing.id)
 				)
+				const itemPrice = calculateItemPrice(item)
 				return (
 					<Box key={index}>
 						<HStack justify='space-between'>
@@ -30,6 +32,9 @@ export const CartItemList = ({
 										Допы: {selectedIngs.map(ing => ing.name).join(', ')}
 									</Text>
 								)}
+								<Text color={'green.600'} fontWeight='medium'>
+									{itemPrice} руб.
+								</Text>
 							</VStack>
 							<Button
 								size='sm'
@@ -42,7 +47,7 @@ export const CartItemList = ({
 				)
 			})}
 
-			<VStack >
+			<VStack>
 				<Text color={'gray.500'} fontSize='lg' fontWeight='bold'>
 					Итого: {totalPrice} руб.
 				</Text>

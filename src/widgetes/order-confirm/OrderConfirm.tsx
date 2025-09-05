@@ -1,3 +1,4 @@
+import { calculateItemPrice } from '@/shared/lib/calculateItemPrice'
 import type { CartItem, UserInfo } from '@/shared/types/pizza'
 import { Badge, Box, HStack, Text, VStack } from '@chakra-ui/react'
 
@@ -12,14 +13,6 @@ export const OrderConfirm = ({
 	totalPrice,
 	userData,
 }: OrderConfirmProps) => {
-	const calculateItemPrice = (item: CartItem) => {
-		const ingredientsPrice = item.selectedIngredients.reduce((sum, ingId) => {
-			const ingredient = item.ingredients.find(ing => ing.id === ingId)
-			return sum + (ingredient?.price || 0)
-		}, 0)
-		return (item.basePrice + ingredientsPrice) * item.quantity
-	}
-
 	if (!userData) {
 		return <Text color='red.500'>Пожалуйста, вернитесь и заполните данные</Text>
 	}
