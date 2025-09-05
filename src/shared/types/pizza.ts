@@ -16,3 +16,10 @@ export interface CartItem extends Pizza {
 	quantity: number
 	selectedIngredients: string[]
 }
+
+export interface UserInfo {
+	name: string
+	phone: string
+	address: string
+	comment: string
+}

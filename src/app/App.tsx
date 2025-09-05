@@ -6,7 +6,7 @@ import { CartProvider } from '@/entities/cart/CartContext'
 function App() {
 	return (
 		<CartProvider>
-			<Box minH='100h' bg='gray.100' py={8}>
+			<Box minH='100h' bg='gray.300' py={8}>
 				<Container centerContent>
 					<HomePage />
 				</Container>
