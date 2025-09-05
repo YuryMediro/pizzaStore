@@ -68,5 +68,10 @@ export const useCart = () => {
 			0
 		)
 
-	return { addToCart, cart, removeFromCart, getTotalPrice }
+	const clearCart = () => {
+		setCart([])
+		localStorage.removeItem('pizza-cart')
+	}
+
+	return { addToCart, cart, removeFromCart, getTotalPrice, clearCart }
 }

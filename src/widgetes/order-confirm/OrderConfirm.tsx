@@ -1,17 +1,16 @@
 import type { CartItem, UserInfo } from '@/shared/types/pizza'
-import { Badge, Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
+import { Badge, Box, HStack, Text, VStack } from '@chakra-ui/react'
 
 interface OrderConfirmProps {
 	cart: CartItem[]
 	totalPrice: number
 	userData: UserInfo | null
-	onConfirm: () => void
 }
 
 export const OrderConfirm = ({
 	cart,
 	totalPrice,
-	userData,onConfirm
+	userData,
 }: OrderConfirmProps) => {
 	const calculateItemPrice = (item: CartItem) => {
 		const ingredientsPrice = item.selectedIngredients.reduce((sum, ingId) => {
@@ -87,10 +86,6 @@ export const OrderConfirm = ({
 					{totalPrice} руб.
 				</Text>
 			</HStack>
-
-			<Button colorScheme='green' size='lg' onClick={onConfirm}>
-				Подтвердить заказ
-			</Button>
 		</VStack>
 	)
 }

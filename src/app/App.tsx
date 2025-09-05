@@ -1,5 +1,4 @@
 import { HomePage } from '@/pages/home/HomePage'
-import './App.css'
 import { Box, Container } from '@chakra-ui/react'
 import { CartProvider } from '@/entities/cart/CartContext'
 

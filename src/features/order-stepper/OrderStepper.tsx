@@ -11,7 +11,6 @@ interface CartStepperProps {
 	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
 	totalPrice: number
 	onOrderConfirm: () => void
-	
 }
 
 const steps = [
@@ -27,13 +26,19 @@ export const CartStepper = ({
 	onOrderConfirm,
 }: CartStepperProps) => {
 	const [userData, setUserData] = useState<UserInfo | null>(null)
+	const [currentStep, setCurrentStep] = useState(0)
+	const [isFormValid, setIsFormValid] = useState(false)
 
 	const handleUserSubmit = (data: UserInfo) => {
 		setUserData(data)
 	}
 
+	const handleFormValidityChange = (isValid: boolean) => {
+		setIsFormValid(isValid)
+	}
+
 	const handleOrderConfirm = () => {
-		toaster.create({
+		toaster.success({
 			title: 'Заказ оформлен!',
 			description: 'Ваш заказ успешно принят в обработку',
 			type: 'success',
@@ -42,8 +47,30 @@ export const CartStepper = ({
 		})
 		onOrderConfirm()
 	}
+
+	const handleNext = () => {
+		if (currentStep === 2) {
+			handleOrderConfirm()
+		} else {
+			setCurrentStep(prev => prev + 1)
+		}
+	}
+
+	const handlePrev = () => {
+		setCurrentStep(prev => prev - 1)
+	}
+
+	const handleStepChange = (details: { step: number }) => {
+		setCurrentStep(details.step)
+	}
 	return (
-		<Steps.Root defaultStep={0} count={steps.length} variant='subtle' mt={15}>
+		<Steps.Root
+			defaultStep={currentStep}
+			count={steps.length}
+			variant='subtle'
+			mt={15}
+			onStepChange={handleStepChange}
+		>
 			<VStack gap={8} width='100%'>
 				<Steps.List
 					flexDirection={{ base: 'column', md: 'row' }}
@@ -76,7 +103,10 @@ export const CartStepper = ({
 						<Text fontWeight='bold' color={'gray.500'} mb={4}>
 							{steps[1].description}
 						</Text>
-						<UserForm onSubmit={handleUserSubmit} />
+						<UserForm
+							onSubmit={handleUserSubmit}
+							onFormValidityChange={handleFormValidityChange}
+						/>
 					</Steps.Content>
 
 					<Steps.Content index={2}>
@@ -87,28 +117,41 @@ export const CartStepper = ({
 							cart={cart}
 							userData={userData}
 							totalPrice={totalPrice}
-							onConfirm={handleOrderConfirm}
 						/>
 					</Steps.Content>
-
-					<Steps.CompletedContent>
-						<Text color={'green.500'} fontSize='xl' fontWeight='bold'>
-							Заказ успешно оформлен!
-						</Text>
-						<Text color={'gray.600'} mt={2}>
-							Спасибо за заказ! Мы свяжемся с вами в ближайшее время.
-						</Text>
-					</Steps.CompletedContent>
 				</Box>
 
 				<ButtonGroup size='sm' variant='subtle'>
-					<Steps.PrevTrigger asChild>
-						<Button>Назад</Button>
-					</Steps.PrevTrigger>
-					<Steps.NextTrigger asChild>
-						<Button>Далее</Button>
-					</Steps.NextTrigger>
+					{currentStep > 0 && (
+						<Steps.PrevTrigger asChild>
+							<Button onClick={handlePrev}>Назад</Button>
+						</Steps.PrevTrigger>
+					)}
+
+					{currentStep === 2 ? (
+						<Button
+							colorPalette='teal'
+							onClick={handleOrderConfirm}
+							variant='solid'
+						>
+							Подвердить заказ
+						</Button>
+					) : (
+						<Steps.NextTrigger asChild>
+							<Button
+								onClick={handleNext}
+								disabled={currentStep === 1 && !userData}
+							>
+								Далее
+							</Button>
+						</Steps.NextTrigger>
+					)}
 				</ButtonGroup>
+				{currentStep === 1 && !isFormValid && (
+					<Text color='orange.500' fontSize='sm' textAlign='center'>
+						Заполните все обязательные поля для продолжения
+					</Text>
+				)}
 			</VStack>
 		</Steps.Root>
 	)
