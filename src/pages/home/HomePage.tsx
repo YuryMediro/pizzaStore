@@ -24,6 +24,11 @@ export const HomePage = () => {
 		}
 	}
 
+	const handleOrderConfirm = () => {
+		localStorage.removeItem('pizza-cart')
+		setActiveStep(0)
+	}
+
 	return (
 		<Box>
 			<Heading as='h1' textAlign='center' color='orange.400'>
@@ -46,6 +51,7 @@ export const HomePage = () => {
 						cart={cart}
 						onRemoveItem={removeFromCart}
 						totalPrice={getTotalPrice()}
+						onOrderConfirm={handleOrderConfirm}
 					/>
 				</>
 			)}
