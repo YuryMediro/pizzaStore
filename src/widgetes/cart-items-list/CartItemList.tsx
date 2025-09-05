@@ -1,11 +1,12 @@
 import type { CartItem } from '@/shared/types/pizza'
-import { Box, HStack, Stack, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, HStack, Stack, Text, VStack } from '@chakra-ui/react'
 
 interface CartItemListProps {
 	cart: CartItem[]
+	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
 }
 
-export const CartItemList = ({ cart }: CartItemListProps) => {
+export const CartItemList = ({ cart, onRemoveItem }: CartItemListProps) => {
 	return (
 		<Stack>
 			{cart.map((item, index) => {
@@ -25,6 +26,12 @@ export const CartItemList = ({ cart }: CartItemListProps) => {
 									</Text>
 								)}
 							</VStack>
+							<Button
+								size='sm'
+								onClick={() => onRemoveItem(item.id, item.selectedIngredients)}
+							>
+								Удалить
+							</Button>
 						</HStack>
 					</Box>
 				)

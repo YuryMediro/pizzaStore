@@ -10,7 +10,7 @@ import { useState } from 'react'
 export const HomePage = () => {
 	const [selectedPizza, setSelectedPizza] = useState<Pizza | null>(null)
 	const { onOpen, onClose, open } = useDisclosure()
-	const { addToCart, cart } = useCartContext()
+	const { addToCart, cart, removeFromCart } = useCartContext()
 	const [activeStep, setActiveStep] = useState(0)
 
 	const handlePizzaSelect = (pizza: Pizza) => {
@@ -42,7 +42,7 @@ export const HomePage = () => {
 			) : (
 				<>
 					{/* <CartStepper/> */}
-					<CartStepper cart={cart} />
+					<CartStepper cart={cart} onRemoveItem={removeFromCart} />
 				</>
 			)}
 

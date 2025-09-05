@@ -41,5 +41,17 @@ export const useCart = () => {
 		}
 	}
 
-	return { addToCart, cart }
+	const removeFromCart = (itemId: string, selectedIngredients: string[]) => {
+		const newCart = cart.filter(
+			item =>
+				!(
+					item.id === itemId &&
+					JSON.stringify(item.selectedIngredients) ===
+						JSON.stringify(selectedIngredients)
+				)
+		)
+		saveCart(newCart)
+	}
+
+	return { addToCart, cart, removeFromCart }
 }

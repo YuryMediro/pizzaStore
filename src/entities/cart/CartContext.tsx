@@ -5,6 +5,7 @@ import { useCart } from './useCart'
 type CartContextType = {
 	cart: CartItem[]
 	addToCart: (pizza: Pizza, selectedIngredients: string[]) => void
+	removeFromCart: (itemId: string, selectedIngredients: string[]) => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)

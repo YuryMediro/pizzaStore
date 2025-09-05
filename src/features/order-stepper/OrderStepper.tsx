@@ -1,17 +1,10 @@
-import {
-	Button,
-	ButtonGroup,
-	Steps,
-	Box,
-	Text,
-	VStack,
-} from '@chakra-ui/react'
-import { useCartContext } from '@/entities/cart/CartContext'
+import { Button, ButtonGroup, Steps, Box, Text, VStack } from '@chakra-ui/react'
 import type { CartItem } from '@/shared/types/pizza'
 import { CartItemList } from '@/widgetes/cart-items-list/CartItemList'
 
 interface CartStepperProps {
 	cart: CartItem[]
+	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
 }
 
 const steps = [
@@ -19,11 +12,6 @@ const steps = [
 	{ title: 'Данные', description: 'Форма для ввода данных' },
 	{ title: 'Подтверждение', description: 'Подтверждение заказа' },
 ]
-
-const CartStepContent = () => {
-	const { cart } = useCartContext()
-	return <Box p={4}></Box>
-}
 
 const DataStepContent = () => {
 	return <Box p={4}></Box>
@@ -33,7 +21,7 @@ const ConfirmationStepContent = () => {
 	return <Box p={4}></Box>
 }
 
-export const CartStepper = ({ cart }: CartStepperProps) => {
+export const CartStepper = ({ cart, onRemoveItem }: CartStepperProps) => {
 	return (
 		<Steps.Root defaultStep={0} count={steps.length} variant='subtle' mt={15}>
 			<VStack gap={8} width='100%'>
@@ -59,7 +47,7 @@ export const CartStepper = ({ cart }: CartStepperProps) => {
 
 				<Box width='100%'>
 					<Steps.Content index={0}>
-						<CartItemList cart={cart} />
+						<CartItemList cart={cart} onRemoveItem={onRemoveItem} />
 					</Steps.Content>
 
 					<Steps.Content index={1}>
