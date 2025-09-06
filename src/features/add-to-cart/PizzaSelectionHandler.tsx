@@ -5,14 +5,12 @@ import { AddPizzaModal } from './AddPizzaModal'
 
 interface PizzaSelectionHandlerProps {
 	children: (onPizzaSelect: (pizza: Pizza) => void) => React.ReactNode
-	onAddToCart: (pizza: Pizza, ingredients: string[]) => void
-	
+	onAddToCart: (pizza: Pizza, ingredients: string[], quantity: number) => void
 }
 
 export const PizzaSelectionHandler = ({
 	children,
 	onAddToCart,
-	
 }: PizzaSelectionHandlerProps) => {
 	const [selectedPizza, setSelectedPizza] = useState<Pizza | null>(null)
 	const { onOpen, onClose, open } = useDisclosure()
@@ -22,9 +20,9 @@ export const PizzaSelectionHandler = ({
 		onOpen()
 	}
 
-	const handleAddToCart = (selectedIngredients: string[]) => {
+	const handleAddToCart = (selectedIngredients: string[], quantity: number) => {
 		if (selectedPizza) {
-			onAddToCart(selectedPizza, selectedIngredients)
+			onAddToCart(selectedPizza, selectedIngredients, quantity)
 		}
 		onClose()
 	}
@@ -32,7 +30,6 @@ export const PizzaSelectionHandler = ({
 		<>
 			{children(handlePizzaSelect)}
 			<AddPizzaModal
-				
 				pizza={selectedPizza}
 				onClose={onClose}
 				open={open}

@@ -4,7 +4,11 @@ import { useCart } from './useCart'
 
 type CartContextType = {
 	cart: CartItem[]
-	addToCart: (pizza: Pizza, selectedIngredients: string[]) => void
+	addToCart: (
+		pizza: Pizza,
+		selectedIngredients: string[],
+		quantity: number
+	) => void
 	removeFromCart: (itemId: string, selectedIngredients: string[]) => void
 	getTotalPrice: () => number
 	clearCart: () => void

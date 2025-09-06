@@ -48,7 +48,7 @@ export const PizzaCard = ({ pizza, onSelect }: PizzaCardProps) => {
 						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
 						onClick={onSelect}
 					>
-						Добавить в корзину
+						Добавить в корзину 🛒
 					</Button>
 				</Stack>
 			</Card.Body>

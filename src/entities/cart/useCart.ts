@@ -1,3 +1,4 @@
+import { calculateItemPrice } from '@/shared/lib/calculateItemPrice'
 import type { CartItem, Pizza } from '@/shared/types/pizza'
 import { useEffect, useState } from 'react'
 
@@ -16,26 +17,27 @@ export const useCart = () => {
 		localStorage.setItem('pizza-cart', JSON.stringify(newCart))
 	}
 
-	const addToCart = (pizza: Pizza, selectedIngredients: string[]) => {
-		const existingItem = cart.find(
+	const addToCart = (
+		pizza: Pizza,
+		selectedIngredients: string[],
+		quantity: number = 1
+	) => {
+		const existingItem = cart.findIndex(
 			item =>
 				item.id === pizza.id &&
 				JSON.stringify(item.selectedIngredients) ===
 					JSON.stringify(selectedIngredients)
 		)
 
-		if (existingItem) {
-			const updateCart = cart.map(item =>
-				item.id === existingItem.id
-					? { ...item, quantity: item.quantity + 1 }
-					: item
-			)
-			saveCart(updateCart)
+		if (existingItem !== -1) {
+			const updatedCart = [...cart]
+			updatedCart[existingItem].quantity += quantity
+			saveCart(updatedCart)
 		} else {
 			const newItem: CartItem = {
 				...pizza,
 				selectedIngredients,
-				quantity: 1,
+				quantity,
 			}
 			saveCart([...cart, newItem])
 		}
@@ -54,19 +56,7 @@ export const useCart = () => {
 	}
 
 	const getTotalPrice = () =>
-		cart.reduce(
-			(total, item) =>
-				total +
-				(item.basePrice +
-					item.selectedIngredients.reduce(
-						(sum, ingId) =>
-							sum +
-							(item.ingredients.find(ing => ing.id === ingId)?.price || 0),
-						0
-					)) *
-					item.quantity,
-			0
-		)
+		cart.reduce((total, item) => total + calculateItemPrice(item), 0)
 
 	const clearCart = () => {
 		setCart([])
