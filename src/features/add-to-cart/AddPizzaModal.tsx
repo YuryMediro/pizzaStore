@@ -61,7 +61,7 @@ export const AddPizzaModal = ({
 		onClose()
 	}
 
-	const increaseQuantity = () => setQuantity(q => Math.min(q + 1, 10))
+	const increaseQuantity = () => setQuantity(q => q + 1)
 	const decreaseQuantity = () => setQuantity(q => Math.max(q - 1, 1))
 
 	if (!pizza) return null
@@ -110,9 +110,8 @@ export const AddPizzaModal = ({
 									</Text>
 									<HStack>
 										<NumberInput.Root
-											defaultValue='1'
+											defaultValue={String(quantity)}
 											min={1}
-											max={10}
 											unstyled
 											spinOnPress={false}
 										>
@@ -137,7 +136,6 @@ export const AddPizzaModal = ({
 												<NumberInput.IncrementTrigger asChild>
 													<IconButton
 														onClick={increaseQuantity}
-														disabled={quantity >= 10}
 														colorPalette='orange'
 														variant='outline'
 														borderRadius='full'

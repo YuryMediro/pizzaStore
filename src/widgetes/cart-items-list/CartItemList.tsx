@@ -62,7 +62,12 @@ export const CartItemList = ({
 								</Text>
 							</VStack>
 							<HStack>
-								<NumberInput.Root value={String(item.quantity)} min={1} max={10} unstyled spinOnPress={false}>
+								<NumberInput.Root
+									value={String(item.quantity)}
+									min={1}
+									unstyled
+									spinOnPress={false}
+								>
 									<HStack gap='2'>
 										<NumberInput.DecrementTrigger asChild>
 											<IconButton
@@ -98,7 +103,6 @@ export const CartItemList = ({
 														item.quantity + 1
 													)
 												}
-												disabled={item.quantity >= 10}
 												colorPalette='orange'
 												variant='outline'
 												borderRadius='full'
