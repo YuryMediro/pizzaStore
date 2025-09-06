@@ -12,6 +12,11 @@ type CartContextType = {
 	removeFromCart: (itemId: string, selectedIngredients: string[]) => void
 	getTotalPrice: () => number
 	clearCart: () => void
+	updateItemQuantity: (
+		itemId: string,
+		selectedIngredients: string[],
+		newQuantity: number
+	) => void
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)

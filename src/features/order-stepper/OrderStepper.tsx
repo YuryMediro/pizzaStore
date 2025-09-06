@@ -19,6 +19,11 @@ interface CartStepperProps {
 	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
 	totalPrice: number
 	onOrderConfirm: () => void
+	onUpdateQuantity: (
+		itemId: string,
+		selectedIngredients: string[],
+		newQuantity: number
+	) => void
 }
 
 const steps = [
@@ -31,7 +36,7 @@ export const CartStepper = ({
 	cart,
 	onRemoveItem,
 	totalPrice,
-	onOrderConfirm,
+	onOrderConfirm,onUpdateQuantity
 }: CartStepperProps) => {
 	const [userData, setUserData] = useState<UserInfo | null>(null)
 	const [currentStep, setCurrentStep] = useState(0)
@@ -110,6 +115,7 @@ export const CartStepper = ({
 							cart={cart}
 							onRemoveItem={onRemoveItem}
 							totalPrice={totalPrice}
+							onUpdateQuantity={onUpdateQuantity}
 						/>
 					</Steps.Content>
 

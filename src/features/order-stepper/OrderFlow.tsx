@@ -9,6 +9,11 @@ interface OrderFlowProps {
 	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
 	totalPrice: number
 	onOrderConfirm: () => void
+	updateItemQuantity: (
+		itemId: string,
+		selectedIngredients: string[],
+		newQuantity: number
+	) => void
 }
 
 export const OrderFlow = ({
@@ -17,6 +22,7 @@ export const OrderFlow = ({
 	onOrderConfirm,
 	onRemoveItem,
 	totalPrice,
+	updateItemQuantity,
 }: OrderFlowProps) => {
 	const [activeStep, setActiveStep] = useState(0)
 
@@ -42,6 +48,7 @@ export const OrderFlow = ({
 	return (
 		<CartStepper
 			cart={cart}
+			onUpdateQuantity={updateItemQuantity}
 			onRemoveItem={onRemoveItem}
 			totalPrice={totalPrice}
 			onOrderConfirm={() => {

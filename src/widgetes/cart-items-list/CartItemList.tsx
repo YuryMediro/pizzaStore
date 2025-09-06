@@ -1,18 +1,33 @@
 import { useColorModeValue } from '@/components/ui/color-mode'
 import { calculateItemPrice } from '@/shared/lib/calculateItemPrice'
 import type { CartItem } from '@/shared/types/pizza'
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
+import {
+	Box,
+	Button,
+	HStack,
+	IconButton,
+	NumberInput,
+	Text,
+	VStack,
+} from '@chakra-ui/react'
+import { LuMinus, LuPlus } from 'react-icons/lu'
 
 interface CartItemListProps {
 	cart: CartItem[]
 	onRemoveItem: (itemId: string, selectedIngredients: string[]) => void
 	totalPrice: number
+	onUpdateQuantity: (
+		itemId: string,
+		selectedIngredients: string[],
+		newQuantity: number
+	) => void
 }
 
 export const CartItemList = ({
 	cart,
 	onRemoveItem,
 	totalPrice,
+	onUpdateQuantity,
 }: CartItemListProps) => {
 	const cardBg = useColorModeValue('white', 'gray.600')
 	return (
@@ -46,6 +61,55 @@ export const CartItemList = ({
 									{itemPrice} руб.
 								</Text>
 							</VStack>
+							<HStack>
+								<NumberInput.Root value={String(item.quantity)} min={1} max={10} unstyled spinOnPress={false}>
+									<HStack gap='2'>
+										<NumberInput.DecrementTrigger asChild>
+											<IconButton
+												onClick={() =>
+													item.quantity > 1
+														? onUpdateQuantity(
+																item.id,
+																item.selectedIngredients,
+																item.quantity - 1
+														  )
+														: onRemoveItem(item.id, item.selectedIngredients)
+												}
+												disabled={item.quantity <= 1}
+												colorPalette='orange'
+												variant='outline'
+												borderRadius='full'
+												size='sm'
+											>
+												<LuMinus />
+											</IconButton>
+										</NumberInput.DecrementTrigger>
+										<NumberInput.ValueText
+											textAlign='center'
+											fontSize='lg'
+											minW='3ch'
+										/>
+										<NumberInput.IncrementTrigger asChild>
+											<IconButton
+												onClick={() =>
+													onUpdateQuantity(
+														item.id,
+														item.selectedIngredients,
+														item.quantity + 1
+													)
+												}
+												disabled={item.quantity >= 10}
+												colorPalette='orange'
+												variant='outline'
+												borderRadius='full'
+												size='sm'
+											>
+												<LuPlus />
+											</IconButton>
+										</NumberInput.IncrementTrigger>
+									</HStack>
+								</NumberInput.Root>
+							</HStack>
 							<Button
 								colorPalette='red'
 								size='sm'

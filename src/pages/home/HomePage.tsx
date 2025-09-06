@@ -6,7 +6,7 @@ import { PizzaList } from '@/widgetes/pizza-list/PizzaList'
 import { Box, Container, Heading } from '@chakra-ui/react'
 
 export const HomePage = () => {
-	const { addToCart, cart, removeFromCart, getTotalPrice, clearCart } =
+	const { addToCart, cart, removeFromCart, getTotalPrice, clearCart,updateItemQuantity } =
 		useCartContext()
 
 	return (
@@ -19,6 +19,7 @@ export const HomePage = () => {
 					Собери свою идеальную пиццу!
 				</Heading>
 				<OrderFlow
+					updateItemQuantity={updateItemQuantity}
 					cart={cart}
 					onRemoveItem={removeFromCart}
 					totalPrice={getTotalPrice()}

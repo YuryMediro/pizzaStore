@@ -54,6 +54,26 @@ export const useCart = () => {
 		)
 		saveCart(newCart)
 	}
+	const updateItemQuantity = (
+		itemId: string,
+		selectedIngredients: string[],
+		newQuantity: number
+	) => {
+		if (newQuantity < 1) return 
+
+		const updatedCart = cart.map(item => {
+			if (
+				item.id === itemId &&
+				JSON.stringify(item.selectedIngredients) ===
+					JSON.stringify(selectedIngredients)
+			) {
+				return { ...item, quantity: newQuantity }
+			}
+			return item
+		})
+
+		saveCart(updatedCart)
+	}
 
 	const getTotalPrice = () =>
 		cart.reduce((total, item) => total + calculateItemPrice(item), 0)
@@ -63,5 +83,12 @@ export const useCart = () => {
 		localStorage.removeItem('pizza-cart')
 	}
 
-	return { addToCart, cart, removeFromCart, getTotalPrice, clearCart }
+	return {
+		addToCart,
+		cart,
+		removeFromCart,
+		getTotalPrice,
+		clearCart,
+		updateItemQuantity,
+	}
 }
