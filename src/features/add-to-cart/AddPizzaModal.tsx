@@ -77,7 +77,7 @@ export const AddPizzaModal = ({
 								borderRadius='lg'
 							>
 								<HStack justify='space-between' align='center'>
-									<Text fontWeight='medium' color='gray.700'>
+									<Text fontWeight='medium' color='gray.300'>
 										Количество:
 									</Text>
 									<HStack>

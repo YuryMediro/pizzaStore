@@ -1,9 +1,10 @@
+import { Toaster } from '@/components/ui/toaster'
 import { useCartContext } from '@/entities/cart/CartContext'
 import { PizzaSelectionHandler } from '@/features/add-to-cart/PizzaSelectionHandler'
 import { OrderFlow } from '@/features/order-stepper/OrderFlow'
 import { mockPizza } from '@/shared/api/mock'
 import { PizzaList } from '@/widgetes/pizza-list/PizzaList'
-import { Box, Container, Heading } from '@chakra-ui/react'
+import { Box, Container, Heading} from '@chakra-ui/react'
 
 export const HomePage = () => {
 	const { addToCart, cart, removeFromCart, getTotalPrice, clearCart,updateItemQuantity } =
@@ -11,6 +12,7 @@ export const HomePage = () => {
 
 	return (
 		<Container>
+			<Toaster />
 			<Box textAlign='center' mb={10}>
 				<Heading as='h1' size='2xl' color='orange.400' letterSpacing='tight'>
 					🍕 Конструктор пиццы

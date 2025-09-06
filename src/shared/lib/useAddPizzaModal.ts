@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import type { Pizza } from '../types/pizza'
 import { calculateItemPrice } from './calculateItemPrice'
 import { useAnimatedPrice } from './useAnimatedPrice'
+import { toaster } from '@/components/ui/toaster'
 
 interface useAddPizzaModalProps {
 	pizza: Pizza | null
@@ -36,6 +37,12 @@ export const useAddPizzaModal = ({
 	const { previous: prevTotalPrice } = useAnimatedPrice(totalPrice)
 
 	const handleAddToCart = () => {
+		toaster.success({
+			title: 'Пицца добавлена в корзину!',
+			type: 'success',
+			duration: 3000,
+			closable: true,
+		})
 		onAddToCart(selectedIngredients, quantity)
 		setSelectedIngredients([])
 		setQuantity(1)
