@@ -13,10 +13,10 @@ import {
 	Box,
 	NumberInput,
 } from '@chakra-ui/react'
-import { useState, useMemo } from 'react'
-import { calculateItemPrice } from '@/shared/lib/calculateItemPrice'
 import { LuMinus, LuPlus } from 'react-icons/lu'
 import { getPizzaLabel } from '@/shared/lib/getPizzaLabel'
+import CountUp from 'react-countup'
+import { useAddPizzaModal } from '@/shared/lib/useAddPizzaModal'
 
 interface AddPizzaModalProps {
 	pizza: Pizza | null
@@ -31,38 +31,10 @@ export const AddPizzaModal = ({
 	onClose,
 	onAddToCart,
 }: AddPizzaModalProps) => {
-	const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
-	const [quantity, setQuantity] = useState(1)
-
+	const data = useAddPizzaModal({ pizza, onAddToCart, onClose })
 	const bgColor = useColorModeValue('white', 'gray.700')
 	const borderColor = useColorModeValue('gray.200', 'gray.700')
 	const accentColor = useColorModeValue('orange.500', 'orange.300')
-
-	const totalPrice = useMemo(() => {
-		if (!pizza) return 0
-
-		const tempCartItem = {
-			id: pizza.id,
-			name: pizza.name,
-			basePrice: pizza.basePrice,
-			ingredients: pizza.ingredients,
-			selectedIngredients,
-			quantity,
-			image: pizza.image,
-		}
-
-		return calculateItemPrice(tempCartItem)
-	}, [pizza, selectedIngredients, quantity])
-
-	const handleAddToCart = () => {
-		onAddToCart(selectedIngredients, quantity)
-		setSelectedIngredients([])
-		setQuantity(1)
-		onClose()
-	}
-
-	const increaseQuantity = () => setQuantity(q => q + 1)
-	const decreaseQuantity = () => setQuantity(q => Math.max(q - 1, 1))
 
 	if (!pizza) return null
 
@@ -110,7 +82,7 @@ export const AddPizzaModal = ({
 									</Text>
 									<HStack>
 										<NumberInput.Root
-											defaultValue={String(quantity)}
+											defaultValue={String(data.quantity)}
 											min={1}
 											unstyled
 											spinOnPress={false}
@@ -118,8 +90,8 @@ export const AddPizzaModal = ({
 											<HStack gap='2'>
 												<NumberInput.DecrementTrigger asChild>
 													<IconButton
-														onClick={decreaseQuantity}
-														disabled={quantity <= 1}
+														onClick={data.decreaseQuantity}
+														disabled={data.quantity <= 1}
 														colorPalette='orange'
 														variant='outline'
 														borderRadius='full'
@@ -135,7 +107,7 @@ export const AddPizzaModal = ({
 												/>
 												<NumberInput.IncrementTrigger asChild>
 													<IconButton
-														onClick={increaseQuantity}
+														onClick={data.increaseQuantity}
 														colorPalette='orange'
 														variant='outline'
 														borderRadius='full'
@@ -158,14 +130,8 @@ export const AddPizzaModal = ({
 								{pizza.ingredients.map(ingredient => (
 									<Checkbox.Root
 										key={ingredient.id}
-										checked={selectedIngredients.includes(ingredient.id)}
-										onChange={() =>
-											setSelectedIngredients(prev =>
-												prev.includes(ingredient.id)
-													? prev.filter(id => id !== ingredient.id)
-													: [...prev, ingredient.id]
-											)
-										}
+										checked={data.selectedIngredients.includes(ingredient.id)}
+										onChange={() => data.toggleIngredient(ingredient.id)}
 									>
 										<Checkbox.HiddenInput />
 										<Checkbox.Control
@@ -190,10 +156,16 @@ export const AddPizzaModal = ({
 								textAlign='center'
 							>
 								<Text fontSize='lg' color='gray.800' mb={1}>
-									💰 Итого за {quantity} {getPizzaLabel(quantity)}:
+									💰 Итого за {data.quantity} {getPizzaLabel(data.quantity)}:
 								</Text>
 								<Text fontSize='2xl' fontWeight='extrabold' color={accentColor}>
-									{totalPrice} ₽
+									<CountUp
+										start={data.prevTotalPrice}
+										end={data.totalPrice}
+										duration={1}
+										separator=' '
+										suffix=' ₽'
+									/>
 								</Text>
 							</Box>
 
@@ -202,7 +174,7 @@ export const AddPizzaModal = ({
 								width='full'
 								borderRadius='full'
 								colorScheme='orange'
-								onClick={handleAddToCart}
+								onClick={data.handleAddToCart}
 								_hover={{ transform: 'scale(1.03)', boxShadow: 'lg' }}
 								_active={{ transform: 'scale(0.98)' }}
 								transition='all 0.2s ease'

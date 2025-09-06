@@ -7,7 +7,7 @@ import { useStepperState } from '@/shared/lib/useStepperState'
 import { useOrderHandling } from '@/shared/lib/useOrderHandling'
 import { StepperNavigation } from '../stepper-navigation/StepperNavigation'
 import { useStepperNavigation } from '@/shared/lib/useStepperNavigation'
-import { steps } from '@/shared/lib/Steps'
+import { steps } from '@/shared/lib/steps'
 
 interface CartStepperProps {
 	cart: CartItem[]
