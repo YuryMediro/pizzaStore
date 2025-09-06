@@ -3,29 +3,34 @@ import { PizzaSelectionHandler } from '@/features/add-to-cart/PizzaSelectionHand
 import { OrderFlow } from '@/features/order-stepper/OrderFlow'
 import { mockPizza } from '@/shared/api/mock'
 import { PizzaList } from '@/widgetes/pizza-list/PizzaList'
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Container, Heading } from '@chakra-ui/react'
 
 export const HomePage = () => {
 	const { addToCart, cart, removeFromCart, getTotalPrice, clearCart } =
 		useCartContext()
 
 	return (
-		<Box>
-			<Heading as='h1' textAlign='center' color='orange.400'>
-				Конструктор пиццы
-			</Heading>
-			<OrderFlow
-				cart={cart}
-				onRemoveItem={removeFromCart}
-				totalPrice={getTotalPrice()}
-				onOrderConfirm={clearCart}
-			>
-				<PizzaSelectionHandler onAddToCart={addToCart}>
-					{onPizzaSelect => (
-						<PizzaList pizzas={mockPizza} onPizzaSelect={onPizzaSelect} />
-					)}
-				</PizzaSelectionHandler>
-			</OrderFlow>
-		</Box>
+		<Container>
+			<Box textAlign='center' mb={10}>
+				<Heading as='h1' size='2xl' color='orange.400' letterSpacing='tight'>
+					🍕 Конструктор пиццы
+				</Heading>
+				<Heading as='h2' size='md' color='gray.600'>
+					Собери свою идеальную пиццу!
+				</Heading>
+				<OrderFlow
+					cart={cart}
+					onRemoveItem={removeFromCart}
+					totalPrice={getTotalPrice()}
+					onOrderConfirm={clearCart}
+				>
+					<PizzaSelectionHandler onAddToCart={addToCart}>
+						{onPizzaSelect => (
+							<PizzaList pizzas={mockPizza} onPizzaSelect={onPizzaSelect} />
+						)}
+					</PizzaSelectionHandler>
+				</OrderFlow>
+			</Box>
+		</Container>
 	)
 }

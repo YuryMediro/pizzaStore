@@ -1,3 +1,4 @@
+import { useColorModeValue } from '@/components/ui/color-mode'
 import type { Pizza } from '@/shared/types/pizza'
 import {
 	Button,
@@ -6,7 +7,7 @@ import {
 	Dialog,
 	Portal,
 	Stack,
-	StackSeparator,
+	Text,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 
@@ -24,6 +25,8 @@ export const AddPizzaModal = ({
 	onAddToCart,
 }: AddPizzaModalProps) => {
 	const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
+	const bgColor = useColorModeValue('white', 'gray.700')
+	const borderColor = useColorModeValue('gray.200', 'gray.700')
 
 	const handleAddToCart = () => {
 		onAddToCart(selectedIngredients)
@@ -35,14 +38,32 @@ export const AddPizzaModal = ({
 	return (
 		<Dialog.Root open={open}>
 			<Portal>
-				<Dialog.Backdrop />
+				<Dialog.Backdrop
+					style={{
+						background: 'rgba(0,0,0,0.4)',
+						backdropFilter: 'blur(4px)',
+					}}
+				/>
 				<Dialog.Positioner>
-					<Dialog.Content>
+					<Dialog.Content
+						borderRadius='xl'
+						p={6}
+						bg={bgColor}
+						boxShadow='2xl'
+						border='1px solid'
+						borderColor={borderColor}
+						w='full'
+					>
 						<Dialog.Header>
-							<Dialog.Title>Добавить ингредиенты: {pizza.name}</Dialog.Title>
+							<Dialog.Title color='orange.500'>
+								Собери пиццу: {pizza.name}
+							</Dialog.Title>
 						</Dialog.Header>
 						<Dialog.Body>
-							<Stack separator={<StackSeparator />}>
+							<Text color='gray.400' mb={4}>
+								Выбери дополнительные ингредиенты:
+							</Text>
+							<Stack gap={6}>
 								{pizza.ingredients.map(ingredient => (
 									<Checkbox.Root
 										key={ingredient.id}
@@ -56,13 +77,29 @@ export const AddPizzaModal = ({
 										}
 									>
 										<Checkbox.HiddenInput />
-										<Checkbox.Control />
-										<Checkbox.Label>
-											{ingredient.name} (+{ingredient.price} руб.)
+										<Checkbox.Control
+											borderColor='orange.300'
+											_checked={{ bg: 'orange.500', borderColor: 'orange.500' }}
+										/>
+										<Checkbox.Label ml={2} fontSize='md'>
+											{ingredient.name}{' '}
+											<Text as='span' color='orange.500'>
+												(+{ingredient.price}₽)
+											</Text>
 										</Checkbox.Label>
 									</Checkbox.Root>
 								))}
-								<Button onClick={handleAddToCart}>Добавить в корзину</Button>
+
+								<Button
+									mt={4}
+									size='lg'
+									width='full'
+									borderRadius='full'
+									_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
+									onClick={handleAddToCart}
+								>
+									Добавить в корзину
+								</Button>
 							</Stack>
 						</Dialog.Body>
 						<Dialog.CloseTrigger asChild>

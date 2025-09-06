@@ -25,7 +25,14 @@ export const OrderFlow = ({
 			<>
 				{children}
 				{cart.length > 0 && (
-					<Button width='100%' mt={4} onClick={() => setActiveStep(1)}>
+					<Button
+						width='full'
+						mt={6}
+						size='lg'
+						borderRadius='full'
+						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
+						onClick={() => setActiveStep(1)}
+					>
 						Перейти к оформлению заказа
 					</Button>
 				)}

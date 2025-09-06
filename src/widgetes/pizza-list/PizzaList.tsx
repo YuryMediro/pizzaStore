@@ -9,7 +9,7 @@ interface PizzaListProps {
 
 export const PizzaList = ({ pizzas, onPizzaSelect }: PizzaListProps) => {
 	return (
-		<SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap={20} mt={10}>
+		<SimpleGrid gap={20} mt={10} minChildWidth='sm'>
 			{pizzas.map(pizza => (
 				<PizzaCard
 					key={pizza.id}
