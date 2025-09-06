@@ -72,26 +72,26 @@ export const OrderConfirm = ({
 						<Badge colorPalette='blue' borderRadius='full' px={3} py={1}>
 							Имя:
 						</Badge>{' '}
-						{userData.name}
+						<Text color='black'>{userData.name}</Text>
 					</HStack>
 					<HStack>
 						<Badge colorPalette='green' borderRadius='full' px={3} py={1}>
 							Телефон:
 						</Badge>{' '}
-						{userData.phone}
+						<Text color='black'>{userData.phone}</Text>
 					</HStack>
 					<HStack>
 						<Badge colorPalette='purple' borderRadius='full' px={3} py={1}>
 							Адрес:
 						</Badge>{' '}
-						{userData.address}
+						<Text color='black'>{userData.address}</Text>
 					</HStack>
 					{userData.comment && (
 						<HStack>
 							<Badge colorPalette='gray' borderRadius='full' px={3} py={1}>
 								Комментарий:
 							</Badge>{' '}
-							{userData.comment}
+							<Text color='black'>{userData.comment}</Text>
 						</HStack>
 					)}
 				</VStack>

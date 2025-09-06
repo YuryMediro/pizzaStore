@@ -6,10 +6,15 @@ import { useColorModeValue } from '@/components/ui/color-mode'
 interface UserFormProps {
 	onSubmit: (data: UserInfo) => void
 	onFormValidityChange: (isValid: boolean) => void
+	initialData?: UserInfo | null
 }
 
-export const UserForm = ({ onSubmit, onFormValidityChange }: UserFormProps) => {
-	const data = useValidForm({ onFormValidityChange, onSubmit })
+export const UserForm = ({
+	onSubmit,
+	onFormValidityChange,
+	initialData,
+}: UserFormProps) => {
+	const data = useValidForm({ onFormValidityChange, onSubmit, initialData })
 	const fieldBg = useColorModeValue('white', 'gray.800')
 	return (
 		<VStack gap={4} align='stretch'>

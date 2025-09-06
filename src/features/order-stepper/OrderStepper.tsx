@@ -1,18 +1,13 @@
-import {
-	Button,
-	ButtonGroup,
-	Steps,
-	Box,
-	Text,
-	VStack,
-	
-} from '@chakra-ui/react'
+import { Steps, Box, Text, VStack } from '@chakra-ui/react'
 import type { CartItem, UserInfo } from '@/shared/types/pizza'
 import { CartItemList } from '@/widgetes/cart-items-list/CartItemList'
 import { UserForm } from '@/widgetes/user-form/UserForm'
-import { toaster } from '@/components/ui/toaster'
-import { useState } from 'react'
 import { OrderConfirm } from '@/widgetes/order-confirm/OrderConfirm'
+import { useStepperState } from '@/shared/lib/useStepperState'
+import { useOrderHandling } from '@/shared/lib/useOrderHandling'
+import { StepperNavigation } from '../stepper-navigation/StepperNavigation'
+import { useStepperNavigation } from '@/shared/lib/useStepperNavigation'
+import { steps } from '@/shared/lib/Steps'
 
 interface CartStepperProps {
 	cart: CartItem[]
@@ -26,63 +21,40 @@ interface CartStepperProps {
 	) => void
 }
 
-const steps = [
-	{ title: 'Корзина', description: 'Содержимое вашей корзины:' },
-	{ title: 'Данные', description: 'Данные для доставки' },
-	{ title: 'Подтверждение', description: 'Подтверждение заказа' },
-]
-
 export const CartStepper = ({
 	cart,
 	onRemoveItem,
 	totalPrice,
-	onOrderConfirm,onUpdateQuantity
+	onOrderConfirm,
+	onUpdateQuantity,
 }: CartStepperProps) => {
-	const [userData, setUserData] = useState<UserInfo | null>(null)
-	const [currentStep, setCurrentStep] = useState(0)
-	const [isFormValid, setIsFormValid] = useState(false)
+	const dataStepper = useStepperState()
+
+	const { handleOrderConfirm } = useOrderHandling(
+		onOrderConfirm,
+		dataStepper.resetStepper
+	)
+	const navigation = useStepperNavigation({
+		currentStep: dataStepper.currentStep,
+		setCurrentStep: dataStepper.setCurrentStep,
+		onOrderConfirm: handleOrderConfirm,
+	})
 
 	const handleUserSubmit = (data: UserInfo) => {
-		setUserData(data)
+		dataStepper.setUserData(data)
 	}
 
 	const handleFormValidityChange = (isValid: boolean) => {
-		setIsFormValid(isValid)
+		dataStepper.setIsFormValid(isValid)
 	}
 
-	const handleOrderConfirm = () => {
-		toaster.success({
-			title: 'Заказ оформлен!',
-			description: 'Ваш заказ успешно принят в обработку',
-			type: 'success',
-			duration: 3000,
-			closable: true,
-		})
-		onOrderConfirm()
-	}
-
-	const handleNext = () => {
-		if (currentStep === 2) {
-			handleOrderConfirm()
-		} else {
-			setCurrentStep(prev => prev + 1)
-		}
-	}
-
-	const handlePrev = () => {
-		setCurrentStep(prev => prev - 1)
-	}
-
-	const handleStepChange = (details: { step: number }) => {
-		setCurrentStep(details.step)
-	}
 	return (
 		<Steps.Root
-			defaultStep={currentStep}
+			defaultStep={dataStepper.currentStep}
 			count={steps.length}
 			variant='subtle'
 			mt={15}
-			onStepChange={handleStepChange}
+			onStepChange={navigation.handleStepChange}
 		>
 			<VStack gap={8} width='100%'>
 				<Steps.List
@@ -93,11 +65,17 @@ export const CartStepper = ({
 						<Steps.Item key={index} index={index} title={step.title}>
 							<Steps.Indicator
 								borderColor='orange.300'
-								bg={index <= currentStep ? 'orange.500' : 'gray.500'}
+								bg={
+									index <= dataStepper.currentStep ? 'orange.500' : 'gray.500'
+								}
 							/>
 							<Steps.Title
-								fontWeight={index === currentStep ? 'bold' : 'normal'}
-								color={index <= currentStep ? 'orange.600' : 'gray.500'}
+								fontWeight={
+									index === dataStepper.currentStep ? 'bold' : 'normal'
+								}
+								color={
+									index <= dataStepper.currentStep ? 'orange.600' : 'gray.500'
+								}
 							>
 								{step.title}
 							</Steps.Title>
@@ -126,6 +104,7 @@ export const CartStepper = ({
 						<UserForm
 							onSubmit={handleUserSubmit}
 							onFormValidityChange={handleFormValidityChange}
+							initialData={dataStepper.userData}
 						/>
 					</Steps.Content>
 
@@ -135,59 +114,20 @@ export const CartStepper = ({
 						</Text>
 						<OrderConfirm
 							cart={cart}
-							userData={userData}
+							userData={dataStepper.userData}
 							totalPrice={totalPrice}
 						/>
 					</Steps.Content>
 				</Box>
 
-				<ButtonGroup size='sm' variant='subtle'>
-					{currentStep > 0 && (
-						<Steps.PrevTrigger asChild>
-							<Button
-								onClick={handlePrev}
-								colorPalette='gray'
-								size='lg'
-								borderRadius='full'
-							>
-								← Назад
-							</Button>
-						</Steps.PrevTrigger>
-					)}
-
-					{currentStep === 2 ? (
-						<Button
-							onClick={handleOrderConfirm}
-							colorPalette='teal'
-							variant='solid'
-							size='lg'
-							borderRadius='full'
-							flex='2'
-							fontWeight='bold'
-							_hover={{ transform: 'scale(1)', boxShadow: 'md' }}
-							transition='all 0.2s ease'
-						>
-							✅ Подвердить заказ
-						</Button>
-					) : (
-						<Steps.NextTrigger asChild>
-							<Button
-								onClick={handleNext}
-								disabled={currentStep === 1 && !userData}
-								colorPalette='gray'
-								size='lg'
-								borderRadius='full'
-							>
-								Далее →
-							</Button>
-						</Steps.NextTrigger>
-					)}
-				</ButtonGroup>
-				{currentStep === 1 && !isFormValid && (
-					<Text color='orange.500' fontSize='sm' textAlign='center'>
-						⚠️ Заполните все обязательные поля для продолжения
-					</Text>
-				)}
+				<StepperNavigation
+					currentStep={dataStepper.currentStep}
+					isFormValid={dataStepper.isFormValid}
+					userData={dataStepper.userData}
+					onNext={navigation.handleNext}
+					onPrev={navigation.handlePrev}
+					onConfirm={handleOrderConfirm}
+				/>
 			</VStack>
 		</Steps.Root>
 	)

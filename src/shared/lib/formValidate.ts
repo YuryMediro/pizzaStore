@@ -5,17 +5,19 @@ import { formatPhoneNumber, validatePhoneNumber } from './phoneValidation'
 interface useValidFormProps {
 	onFormValidityChange: (isValid: boolean) => void
 	onSubmit: (data: UserInfo) => void
+	initialData?: UserInfo | null
 }
 
 export const useValidForm = ({
 	onFormValidityChange,
-	onSubmit,
+	onSubmit,initialData
 }: useValidFormProps) => {
 	const [formData, setFormData] = useState<UserInfo>({
 		name: '',
 		phone: '',
 		address: '',
 		comment: '',
+		...initialData,
 	})
 
 	const [touched, setTouched] = useState({
