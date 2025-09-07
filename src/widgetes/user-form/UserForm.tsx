@@ -15,7 +15,6 @@ export const UserForm = ({
 	initialData,
 }: UserFormProps) => {
 	const data = useValidForm({ onFormValidityChange, onSubmit, initialData })
-	const fieldBg = useColorModeValue('white', 'gray.800')
 	return (
 		<VStack gap={4} align='stretch'>
 			<Field.Root required invalid={!!data.errors.name}>
@@ -28,7 +27,7 @@ export const UserForm = ({
 					value={data.formData.name}
 					onChange={e => data.handleChange('name', e.target.value)}
 					onBlur={() => data.handleBlur('name')}
-					bg={fieldBg}
+					bg={useColorModeValue('white', 'gray.800')}
 					borderRadius='lg'
 					_hover={{ borderColor: 'orange.300' }}
 				/>
@@ -46,7 +45,7 @@ export const UserForm = ({
 					onChange={data.handlePhoneChange}
 					onBlur={() => data.handleBlur('phone')}
 					maxLength={18}
-					bg={fieldBg}
+					bg={useColorModeValue('white', 'gray.800')}
 					borderRadius='lg'
 					_hover={{ borderColor: 'orange.300' }}
 				/>
@@ -63,7 +62,7 @@ export const UserForm = ({
 					value={data.formData.address}
 					onChange={e => data.handleChange('address', e.target.value)}
 					onBlur={() => data.handleBlur('address')}
-					bg={fieldBg}
+					bg={useColorModeValue('white', 'gray.800')}
 					borderRadius='lg'
 					_hover={{ borderColor: 'orange.300' }}
 				/>
@@ -78,7 +77,7 @@ export const UserForm = ({
 					placeholder='Дополнительные пожелания'
 					value={data.formData.comment}
 					onChange={e => data.handleChange('comment', e.target.value)}
-					bg={fieldBg}
+					bg={useColorModeValue('white', 'gray.800')}
 					borderRadius='lg'
 					minH='100px'
 					_hover={{ borderColor: 'orange.300' }}

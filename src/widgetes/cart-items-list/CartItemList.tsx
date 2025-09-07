@@ -36,7 +36,6 @@ export const CartItemList = ({
 					/>
 				)
 			})}
-
 			<HStack justify='center' p={3}>
 				<Text fontSize='xl' fontWeight='bold' color='gray.800'>
 					Итого:
