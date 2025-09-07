@@ -1,18 +1,16 @@
-import { Toaster } from '@/components/ui/toaster'
 import { useCartContext } from '@/entities/cart/CartContext'
 import { PizzaSelectionHandler } from '@/features/add-to-cart/PizzaSelectionHandler'
-import { OrderFlow } from '@/features/order-stepper/OrderFlow'
 import { mockPizza } from '@/shared/api/mock'
 import { PizzaList } from '@/widgetes/pizza-list/PizzaList'
-import { Box, Container, Heading} from '@chakra-ui/react'
+import { Box, Button, Container, Heading } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 export const HomePage = () => {
-	const { addToCart, cart, removeFromCart, getTotalPrice, clearCart,updateItemQuantity } =
-		useCartContext()
+	const { addToCart, cart } = useCartContext()
+	const navigate = useNavigate()
 
 	return (
 		<Container>
-			<Toaster />
 			<Box textAlign='center' mb={10}>
 				<Heading as='h1' size='2xl' color='orange.400' letterSpacing='tight'>
 					🍕 Конструктор пиццы
@@ -20,19 +18,23 @@ export const HomePage = () => {
 				<Heading as='h2' size='md' color='gray.600'>
 					Собери свою идеальную пиццу!
 				</Heading>
-				<OrderFlow
-					updateItemQuantity={updateItemQuantity}
-					cart={cart}
-					onRemoveItem={removeFromCart}
-					totalPrice={getTotalPrice()}
-					onOrderConfirm={clearCart}
-				>
-					<PizzaSelectionHandler onAddToCart={addToCart}>
-						{onPizzaSelect => (
-							<PizzaList pizzas={mockPizza} onPizzaSelect={onPizzaSelect} />
-						)}
-					</PizzaSelectionHandler>
-				</OrderFlow>
+				<PizzaSelectionHandler onAddToCart={addToCart}>
+					{onPizzaSelect => (
+						<PizzaList pizzas={mockPizza} onPizzaSelect={onPizzaSelect} />
+					)}
+				</PizzaSelectionHandler>
+				{cart.length > 0 && (
+					<Button
+						width='full'
+						mt={6}
+						size='lg'
+						borderRadius='full'
+						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
+						onClick={() => navigate('/cart')}
+					>
+						Перейти к оформлению заказа
+					</Button>
+				)}
 			</Box>
 		</Container>
 	)
