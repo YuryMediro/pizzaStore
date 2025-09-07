@@ -30,7 +30,7 @@ export const HomePage = () => {
 						size='lg'
 						borderRadius='full'
 						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
-						onClick={() => navigate('/cart')}
+						onClick={() => navigate('/pizzaStore/cart')}
 					>
 						Перейти к оформлению заказа
 					</Button>

@@ -11,7 +11,7 @@ function App() {
 				<Container centerContent>
 					<Routes>
 						<Route path='/pizzaStore' element={<HomePage />} />
-						<Route path='/cart' element={<CartPage />} />
+						<Route path='/pizzaStore/cart' element={<CartPage />} />
 					</Routes>
 				</Container>
 			</Box>
