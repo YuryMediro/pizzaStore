@@ -9,14 +9,12 @@ import {
 	Stack,
 	Text,
 	HStack,
-	IconButton,
 	Box,
-	NumberInput,
 } from '@chakra-ui/react'
-import { LuMinus, LuPlus } from 'react-icons/lu'
 import { getPizzaLabel } from '@/shared/lib/getPizzaLabel'
 import { useAddPizzaModal } from '@/shared/lib/useAddPizzaModal'
-import { AnimatedPrice } from '@/widgetes/animated-price/AnimatedPrice'
+import { AnimatedPrice } from '@/shared/ui/AnimatedPrice'
+import { QuantitySelector } from '@/shared/ui/QuantitySelector'
 
 interface AddPizzaModalProps {
 	pizza: Pizza | null
@@ -35,7 +33,6 @@ export const AddPizzaModal = ({
 	const borderColor = useColorModeValue('gray.200', 'gray.700')
 	const accentColor = useColorModeValue('orange.500', 'orange.300')
 	const data = useAddPizzaModal({ pizza, onAddToCart, onClose })
-
 
 	return (
 		<Dialog.Root open={open} onOpenChange={open => !open && onClose()}>
@@ -79,45 +76,11 @@ export const AddPizzaModal = ({
 									<Text fontWeight='medium' color='gray.300'>
 										Количество:
 									</Text>
-									<HStack>
-										<NumberInput.Root
-											defaultValue={String(data.quantity)}
-											min={1}
-											unstyled
-											spinOnPress={false}
-										>
-											<HStack gap='2'>
-												<NumberInput.DecrementTrigger asChild>
-													<IconButton
-														onClick={data.decreaseQuantity}
-														disabled={data.quantity <= 1}
-														colorPalette='orange'
-														variant='outline'
-														borderRadius='full'
-														size='sm'
-													>
-														<LuMinus />
-													</IconButton>
-												</NumberInput.DecrementTrigger>
-												<NumberInput.ValueText
-													textAlign='center'
-													fontSize='lg'
-													minW='3ch'
-												/>
-												<NumberInput.IncrementTrigger asChild>
-													<IconButton
-														onClick={data.increaseQuantity}
-														colorPalette='orange'
-														variant='outline'
-														borderRadius='full'
-														size='sm'
-													>
-														<LuPlus />
-													</IconButton>
-												</NumberInput.IncrementTrigger>
-											</HStack>
-										</NumberInput.Root>
-									</HStack>
+									<QuantitySelector
+										quantity={data.quantity}
+										decreaseQuantity={data.decreaseQuantity}
+										increaseQuantity={data.increaseQuantity}
+									/>
 								</HStack>
 							</Box>
 
@@ -158,7 +121,7 @@ export const AddPizzaModal = ({
 									💰 Итого за {data.quantity} {getPizzaLabel(data.quantity)}:
 								</Text>
 								<Text fontSize='2xl' fontWeight='extrabold' color={accentColor}>
-									<AnimatedPrice price={data.totalPrice}  />
+									<AnimatedPrice price={data.totalPrice} />
 								</Text>
 							</Box>
 

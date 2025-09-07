@@ -1,18 +1,8 @@
-import { useColorModeValue } from '@/components/ui/color-mode'
-import { calculateItemPrice } from '@/shared/lib/calculateItemPrice'
 import { useAnimatedPrice } from '@/shared/lib/useAnimatedPrice'
 import type { CartItem } from '@/shared/types/pizza'
-import {
-	Box,
-	Button,
-	HStack,
-	IconButton,
-	NumberInput,
-	Text,
-	VStack,
-} from '@chakra-ui/react'
-import { LuMinus, LuPlus } from 'react-icons/lu'
-import { AnimatedPrice } from '../animated-price/AnimatedPrice'
+import { HStack, Text, VStack } from '@chakra-ui/react'
+import { AnimatedPrice } from '../../shared/ui/AnimatedPrice'
+import { CartItemRow } from './CartItemRow'
 
 interface CartItemListProps {
 	cart: CartItem[]
@@ -32,104 +22,18 @@ export const CartItemList = ({
 	onUpdateQuantity,
 }: CartItemListProps) => {
 	useAnimatedPrice(totalPrice)
-	const cardBg = useColorModeValue('white', 'gray.600')
 	return (
 		<VStack align='stretch'>
 			{cart.map((item, index) => {
 				if (!item) return null
-				const selectedIngs = item.ingredients.filter(ing =>
-					item.selectedIngredients.includes(ing.id)
-				)
-				const itemPrice = calculateItemPrice(item)
 
 				return (
-					<Box
-						key={index}
-						p={4}
-						borderRadius='lg'
-						bg={cardBg}
-						boxShadow='sm'
-						border='1px solid'
-						borderColor={useColorModeValue('gray.200', 'gray.700')}
-					>
-						<HStack justify='space-between' align='start'>
-							<VStack align='start'>
-								<Text fontWeight='medium' fontSize='lg' color='gray.800'>
-									{item.name} x{item.quantity}
-								</Text>
-								{selectedIngs.length > 0 && (
-									<Text fontSize='sm' color='orange.600' fontWeight='medium'>
-										Допы: {selectedIngs.map(ing => ing.name).join(', ')}
-									</Text>
-								)}
-								<Text color='green.600' fontWeight='bold' fontSize='lg'>
-									<AnimatedPrice price={itemPrice} />
-								</Text>
-							</VStack>
-							<HStack>
-								<NumberInput.Root
-									value={String(item.quantity)}
-									min={1}
-									unstyled
-									spinOnPress={false}
-								>
-									<HStack gap='2'>
-										<NumberInput.DecrementTrigger asChild>
-											<IconButton
-												onClick={() =>
-													item.quantity > 1
-														? onUpdateQuantity(
-																item.id,
-																item.selectedIngredients,
-																item.quantity - 1
-														  )
-														: onRemoveItem(item.id, item.selectedIngredients)
-												}
-												disabled={item.quantity <= 1}
-												colorPalette='orange'
-												variant='outline'
-												borderRadius='full'
-												size='sm'
-											>
-												<LuMinus />
-											</IconButton>
-										</NumberInput.DecrementTrigger>
-										<NumberInput.ValueText
-											textAlign='center'
-											fontSize='lg'
-											minW='3ch'
-										/>
-										<NumberInput.IncrementTrigger asChild>
-											<IconButton
-												onClick={() =>
-													onUpdateQuantity(
-														item.id,
-														item.selectedIngredients,
-														item.quantity + 1
-													)
-												}
-												colorPalette='orange'
-												variant='outline'
-												borderRadius='full'
-												size='sm'
-											>
-												<LuPlus />
-											</IconButton>
-										</NumberInput.IncrementTrigger>
-									</HStack>
-								</NumberInput.Root>
-							</HStack>
-							<Button
-								colorPalette='red'
-								size='sm'
-								_hover={{ bg: 'red.400' }}
-								borderRadius='full'
-								onClick={() => onRemoveItem(item.id, item.selectedIngredients)}
-							>
-								Удалить
-							</Button>
-						</HStack>
-					</Box>
+					<CartItemRow
+						key={index || item.id}
+						item={item}
+						onRemoveItem={onRemoveItem}
+						onUpdateQuantity={onUpdateQuantity}
+					/>
 				)
 			})}
 
