@@ -21,7 +21,7 @@ export const CartPage = () => {
 						size='lg'
 						borderRadius='full'
 						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
-						onClick={() => navigate('/')}
+						onClick={() => navigate('/pizzaStore')}
 					>
 						Вернуться к выбору пицц
 					</Button>
@@ -44,7 +44,7 @@ export const CartPage = () => {
 				totalPrice={getTotalPrice()}
 				onOrderConfirm={() => {
 					clearCart()
-					navigate('/')
+					navigate('/pizzaStore')
 				}}
 			/>
 
@@ -54,7 +54,7 @@ export const CartPage = () => {
 				size='lg'
 				borderRadius='full'
 				_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
-				onClick={() => navigate('/')}
+				onClick={() => navigate('/pizzaStore')}
 			>
 				← Вернуться к выбору пицц
 			</Button>
