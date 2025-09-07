@@ -24,12 +24,12 @@ export const CartItemList = ({
 	useAnimatedPrice(totalPrice)
 	return (
 		<VStack align='stretch'>
-			{cart.map((item, index) => {
+			{cart.map(item => {
 				if (!item) return null
 
 				return (
 					<CartItemRow
-						key={index}
+						key={item.id}
 						item={item}
 						onRemoveItem={onRemoveItem}
 						onUpdateQuantity={onUpdateQuantity}
