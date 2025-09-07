@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react'
 import { LuMinus, LuPlus } from 'react-icons/lu'
 import { getPizzaLabel } from '@/shared/lib/getPizzaLabel'
-import CountUp from 'react-countup'
 import { useAddPizzaModal } from '@/shared/lib/useAddPizzaModal'
+import { AnimatedPrice } from '@/widgetes/animated-price/AnimatedPrice'
 
 interface AddPizzaModalProps {
 	pizza: Pizza | null
@@ -31,12 +31,11 @@ export const AddPizzaModal = ({
 	onClose,
 	onAddToCart,
 }: AddPizzaModalProps) => {
-	const data = useAddPizzaModal({ pizza, onAddToCart, onClose })
 	const bgColor = useColorModeValue('white', 'gray.700')
 	const borderColor = useColorModeValue('gray.200', 'gray.700')
 	const accentColor = useColorModeValue('orange.500', 'orange.300')
+	const data = useAddPizzaModal({ pizza, onAddToCart, onClose })
 
-	if (!pizza) return null
 
 	return (
 		<Dialog.Root open={open} onOpenChange={open => !open && onClose()}>
@@ -64,7 +63,7 @@ export const AddPizzaModal = ({
 							alignItems='center'
 						>
 							<Dialog.Title color={accentColor}>
-								Собери пиццу: {pizza.name}
+								Собери пиццу: {pizza?.name}
 							</Dialog.Title>
 							<CloseButton onClick={onClose} size='sm' />
 						</Dialog.Header>
@@ -127,7 +126,7 @@ export const AddPizzaModal = ({
 							</Text>
 
 							<Stack gap={4} mb={6}>
-								{pizza.ingredients.map(ingredient => (
+								{pizza?.ingredients.map(ingredient => (
 									<Checkbox.Root
 										key={ingredient.id}
 										checked={data.selectedIngredients.includes(ingredient.id)}
@@ -159,13 +158,7 @@ export const AddPizzaModal = ({
 									💰 Итого за {data.quantity} {getPizzaLabel(data.quantity)}:
 								</Text>
 								<Text fontSize='2xl' fontWeight='extrabold' color={accentColor}>
-									<CountUp
-										start={data.prevTotalPrice}
-										end={data.totalPrice}
-										duration={1}
-										separator=' '
-										suffix=' ₽'
-									/>
+									<AnimatedPrice price={data.totalPrice}  />
 								</Text>
 							</Box>
 

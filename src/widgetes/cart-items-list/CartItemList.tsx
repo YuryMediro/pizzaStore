@@ -12,7 +12,7 @@ import {
 	VStack,
 } from '@chakra-ui/react'
 import { LuMinus, LuPlus } from 'react-icons/lu'
-import CountUp from 'react-countup'
+import { AnimatedPrice } from '../animated-price/AnimatedPrice'
 
 interface CartItemListProps {
 	cart: CartItem[]
@@ -31,16 +31,17 @@ export const CartItemList = ({
 	totalPrice,
 	onUpdateQuantity,
 }: CartItemListProps) => {
-	const { previous: prevTotalPrice } = useAnimatedPrice(totalPrice)
+	useAnimatedPrice(totalPrice)
 	const cardBg = useColorModeValue('white', 'gray.600')
 	return (
 		<VStack align='stretch'>
 			{cart.map((item, index) => {
+				if (!item) return null
 				const selectedIngs = item.ingredients.filter(ing =>
 					item.selectedIngredients.includes(ing.id)
 				)
 				const itemPrice = calculateItemPrice(item)
-				const { previous: prevItemPrice } = useAnimatedPrice(itemPrice)
+
 				return (
 					<Box
 						key={index}
@@ -62,13 +63,7 @@ export const CartItemList = ({
 									</Text>
 								)}
 								<Text color='green.600' fontWeight='bold' fontSize='lg'>
-									<CountUp
-										start={prevItemPrice}
-										end={itemPrice}
-										duration={1}
-										separator=' '
-										suffix=' ₽'
-									/>
+									<AnimatedPrice price={itemPrice} />
 								</Text>
 							</VStack>
 							<HStack>
@@ -143,13 +138,7 @@ export const CartItemList = ({
 					Итого:
 				</Text>
 				<Text fontSize='2xl' fontWeight='extrabold' color='orange.600'>
-					<CountUp
-						start={prevTotalPrice}
-						end={totalPrice}
-						duration={1}
-						separator=' '
-						suffix=' ₽'
-					/>
+					<AnimatedPrice price={totalPrice} />
 				</Text>
 			</HStack>
 		</VStack>
