@@ -1,20 +1,12 @@
 import { useColorModeValue } from '@/components/ui/color-mode'
 import type { Pizza } from '@/shared/types/pizza'
-import {
-	Button,
-	Checkbox,
-	CloseButton,
-	Dialog,
-	Portal,
-	Stack,
-	Text,
-	HStack,
-	Box,
-} from '@chakra-ui/react'
-import { getPizzaLabel } from '@/shared/lib/getPizzaLabel'
+import { Dialog, Portal } from '@chakra-ui/react'
 import { useAddPizzaModal } from '@/shared/lib/useAddPizzaModal'
-import { AnimatedPrice } from '@/shared/ui/AnimatedPrice'
-import { QuantitySelector } from '@/shared/ui/QuantitySelector'
+import { ModalHeader } from './ui/ModalHeader'
+import { QuantitySection } from './ui/QuantitySection'
+import { IngredientsSection } from './ui/IngredientsSection'
+import { TotalPriceSection } from './ui/TotalPriceSection'
+import { AddToCartButton } from './ui/AddToCartButton'
 
 interface AddPizzaModalProps {
 	pizza: Pizza | null
@@ -29,10 +21,9 @@ export const AddPizzaModal = ({
 	onClose,
 	onAddToCart,
 }: AddPizzaModalProps) => {
-	const bgColor = useColorModeValue('white', 'gray.700')
-	const borderColor = useColorModeValue('gray.200', 'gray.700')
-	const accentColor = useColorModeValue('orange.500', 'orange.300')
 	const data = useAddPizzaModal({ pizza, onAddToCart, onClose })
+
+	if (!pizza) return null
 
 	return (
 		<Dialog.Root open={open} onOpenChange={open => !open && onClose()}>
@@ -47,98 +38,37 @@ export const AddPizzaModal = ({
 					<Dialog.Content
 						borderRadius='xl'
 						p={6}
-						bg={bgColor}
+						bg={useColorModeValue('white', 'gray.700')}
 						boxShadow='2xl'
 						border='1px solid'
-						borderColor={borderColor}
+						borderColor={useColorModeValue('gray.200', 'gray.700')}
 						maxW='480px'
 						w='full'
 					>
-						<Dialog.Header
-							display='flex'
-							justifyContent='space-between'
-							alignItems='center'
-						>
-							<Dialog.Title color={accentColor}>
-								Собери пиццу: {pizza?.name}
-							</Dialog.Title>
-							<CloseButton onClick={onClose} size='sm' />
-						</Dialog.Header>
+						<ModalHeader
+							title={`Собери пиццу: ${pizza.name}`}
+							onClose={onClose}
+						/>
 
 						<Dialog.Body>
-							<Box
-								mb={6}
-								p={4}
-								bg={useColorModeValue('gray.50', 'gray.800')}
-								borderRadius='lg'
-							>
-								<HStack justify='space-between' align='center'>
-									<Text fontWeight='medium' color='gray.300'>
-										Количество:
-									</Text>
-									<QuantitySelector
-										quantity={data.quantity}
-										decreaseQuantity={data.decreaseQuantity}
-										increaseQuantity={data.increaseQuantity}
-									/>
-								</HStack>
-							</Box>
+							<QuantitySection
+								decreaseQuantity={data.decreaseQuantity}
+								increaseQuantity={data.increaseQuantity}
+								quantity={data.quantity}
+							/>
 
-							<Text color='gray.500' mb={4} fontWeight='medium'>
-								Выбери дополнительные ингредиенты:
-							</Text>
+							<IngredientsSection
+								ingredients={pizza.ingredients}
+								selectedIngredients={data.selectedIngredients}
+								toggleIngredient={data.toggleIngredient}
+							/>
 
-							<Stack gap={4} mb={6}>
-								{pizza?.ingredients.map(ingredient => (
-									<Checkbox.Root
-										key={ingredient.id}
-										checked={data.selectedIngredients.includes(ingredient.id)}
-										onChange={() => data.toggleIngredient(ingredient.id)}
-									>
-										<Checkbox.HiddenInput />
-										<Checkbox.Control
-											borderColor='orange.300'
-											_checked={{ bg: 'orange.500', borderColor: 'orange.500' }}
-										/>
-										<Checkbox.Label ml={2} fontSize='md' fontWeight='medium'>
-											{ingredient.name}{' '}
-											<Text as='span' color='orange.500' fontWeight='bold'>
-												(+{ingredient.price}₽)
-											</Text>
-										</Checkbox.Label>
-									</Checkbox.Root>
-								))}
-							</Stack>
+							<TotalPriceSection
+								quantity={data.quantity}
+								totalPrice={data.totalPrice}
+							/>
 
-							<Box
-								p={4}
-								bg={useColorModeValue('orange.50', 'orange.600')}
-								borderRadius='lg'
-								mb={6}
-								textAlign='center'
-							>
-								<Text fontSize='lg' color='gray.800' mb={1}>
-									💰 Итого за {data.quantity} {getPizzaLabel(data.quantity)}:
-								</Text>
-								<Text fontSize='2xl' fontWeight='extrabold' color={accentColor}>
-									<AnimatedPrice price={data.totalPrice} />
-								</Text>
-							</Box>
-
-							<Button
-								size='lg'
-								width='full'
-								borderRadius='full'
-								colorScheme='orange'
-								onClick={data.handleAddToCart}
-								_hover={{ transform: 'scale(1.03)', boxShadow: 'lg' }}
-								_active={{ transform: 'scale(0.98)' }}
-								transition='all 0.2s ease'
-								fontWeight='bold'
-								fontSize='md'
-							>
-								Добавить в корзину 🛒
-							</Button>
+							<AddToCartButton onClick={data.handleAddToCart} />
 						</Dialog.Body>
 					</Dialog.Content>
 				</Dialog.Positioner>

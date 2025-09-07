@@ -60,6 +60,7 @@ export const CartStepper = ({
 				<Steps.List
 					flexDirection={{ base: 'column', md: 'row' }}
 					gap={{ base: 4, md: 2 }}
+					alignItems={'flex-start'}
 				>
 					{steps.map((step, index) => (
 						<Steps.Item key={index} index={index} title={step.title}>

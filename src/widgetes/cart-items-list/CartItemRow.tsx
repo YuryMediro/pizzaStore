@@ -40,7 +40,6 @@ export const CartItemRow = ({
 
 	return (
 		<Box
-			key={item.id}
 			p={4}
 			borderRadius='lg'
 			bg={cardBg}

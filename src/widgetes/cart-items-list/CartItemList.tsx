@@ -29,7 +29,7 @@ export const CartItemList = ({
 
 				return (
 					<CartItemRow
-						key={index || item.id}
+						key={index}
 						item={item}
 						onRemoveItem={onRemoveItem}
 						onUpdateQuantity={onUpdateQuantity}

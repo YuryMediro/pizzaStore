@@ -42,7 +42,7 @@ export const OrderConfirm = ({
 								border='1px solid'
 								borderColor={useColorModeValue('gray.200', 'gray.700')}
 							>
-								<HStack justify='space-between'>
+								<HStack justify='space-between' flexWrap={'wrap'} gap={4}>
 									<VStack align='start'>
 										<Text fontWeight='medium'>
 											{item.name} × {item.quantity}
@@ -104,6 +104,7 @@ export const OrderConfirm = ({
 				borderRadius='xl'
 				w='full'
 				mt={4}
+				flexWrap={'wrap'}
 			>
 				<Text fontSize='xl' fontWeight='bold' color='gray.800'>
 					💰 Общая сумма к оплате:
