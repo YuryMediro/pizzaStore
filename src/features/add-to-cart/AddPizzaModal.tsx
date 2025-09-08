@@ -7,6 +7,8 @@ import { QuantitySection } from './ui/QuantitySection'
 import { IngredientsSection } from './ui/IngredientsSection'
 import { TotalPriceSection } from './ui/TotalPriceSection'
 import { AddToCartButton } from './ui/AddToCartButton'
+import { useRef } from 'react'
+import { useOnClickOutside } from 'usehooks-ts'
 
 interface AddPizzaModalProps {
 	pizza: Pizza | null
@@ -22,6 +24,9 @@ export const AddPizzaModal = ({
 	onAddToCart,
 }: AddPizzaModalProps) => {
 	const data = useAddPizzaModal({ pizza, onAddToCart, onClose })
+	const ref = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>
+
+	useOnClickOutside(ref, onClose)
 
 	if (!pizza) return null
 
@@ -36,6 +41,7 @@ export const AddPizzaModal = ({
 				/>
 				<Dialog.Positioner>
 					<Dialog.Content
+						ref={ref}
 						borderRadius='xl'
 						p={6}
 						bg={useColorModeValue('white', 'gray.700')}

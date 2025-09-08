@@ -1,4 +1,4 @@
-import { PizzaCard } from '@/entities/pizza/PizzaCard'
+import { PizzaCard } from '@/widgetes/pizza-list/ui/PizzaCard'
 import type { Pizza } from '@/shared/types/pizza'
 import { SimpleGrid } from '@chakra-ui/react'
 

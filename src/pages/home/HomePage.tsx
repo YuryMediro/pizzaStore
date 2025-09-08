@@ -25,8 +25,9 @@ export const HomePage = () => {
 				</PizzaSelectionHandler>
 				{cart.length > 0 && (
 					<Button
+					bg={'orange.400'}
 						position={'fixed'}
-						bottom={'2%'}
+						top={'2%'}
 						left={'1%'}
 						zIndex={1000}
 						size='md'
