@@ -16,12 +16,11 @@ export const CartPage = () => {
 						🛒 Ваша корзина пуста
 					</Heading>
 					<Button
-						width='full'
 						mt={6}
 						size='lg'
 						borderRadius='full'
 						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
-						onClick={() => navigate('/pizzaStore')}
+						onClick={() => navigate('/pizzaStore/')}
 					>
 						Вернуться к выбору пицц
 					</Button>
@@ -30,7 +29,7 @@ export const CartPage = () => {
 		)
 	}
 	return (
-		<Container maxW='container.xl'>
+		<Container maxW='container.xl' centerContent>
 			<Box textAlign='center' mb={8}>
 				<Heading as='h1' size='2xl' color='orange.500'>
 					📦 Оформление заказа
@@ -49,12 +48,11 @@ export const CartPage = () => {
 			/>
 
 			<Button
-				width='full'
 				mt={6}
 				size='lg'
 				borderRadius='full'
 				_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
-				onClick={() => navigate('/pizzaStore')}
+				onClick={() => navigate('/pizzaStore/')}
 			>
 				← Вернуться к выбору пицц
 			</Button>

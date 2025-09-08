@@ -24,7 +24,7 @@ export const QuantitySelector = ({
 					<IconButton
 						onClick={decreaseQuantity}
 						disabled={quantity <= 1}
-						colorPalette='orange'
+						colorPalette='white'
 						variant='outline'
 						borderRadius='full'
 						size='sm'
@@ -36,7 +36,7 @@ export const QuantitySelector = ({
 				<NumberInput.IncrementTrigger asChild>
 					<IconButton
 						onClick={increaseQuantity}
-						colorPalette='orange'
+						colorPalette='white'
 						variant='outline'
 						borderRadius='full'
 						size='sm'

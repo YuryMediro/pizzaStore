@@ -26,8 +26,8 @@ export const PizzaCard = ({ pizza, onSelect }: PizzaCardProps) => {
 			bg={cardBg}
 			border='none'
 		>
-			<Box position='relative' height='200px' overflow='hidden'>
-				<Image src={pizza.image} alt={pizza.name} />
+			<Box position='relative' maxHeight='240px' >
+				<Image src={pizza.image} alt={pizza.name} borderRadius={'full'} />
 			</Box>
 			<Card.Body p={5}>
 				<Stack>

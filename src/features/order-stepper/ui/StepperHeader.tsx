@@ -16,7 +16,7 @@ export const StepperHeader = ({ currentStep }: StepperHeaderProps) => {
 				<Steps.Item key={index} index={index} title={step.title}>
 					<Steps.Indicator
 						borderColor='orange.300'
-						bg={index <= currentStep ? 'orange.500' : 'gray.500'}
+						bg={index <= currentStep ? 'orange.500' : 'gray.800'}
 					/>
 					<Steps.Title
 						fontWeight={index === currentStep ? 'bold' : 'normal'}

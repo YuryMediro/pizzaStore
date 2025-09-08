@@ -25,14 +25,16 @@ export const HomePage = () => {
 				</PizzaSelectionHandler>
 				{cart.length > 0 && (
 					<Button
-						width='full'
-						mt={6}
-						size='lg'
+						position={'fixed'}
+						bottom={'2%'}
+						left={'1%'}
+						zIndex={1000}
+						size='md'
 						borderRadius='full'
 						_hover={{ bg: 'orange.500', transform: 'scale(1.05)' }}
 						onClick={() => navigate('/pizzaStore/cart')}
 					>
-						Перейти к оформлению заказа
+						🛒
 					</Button>
 				)}
 			</Box>

@@ -14,7 +14,7 @@ export const IngredientsSection = ({
 }: IngredientsSectionProps) => {
 	return (
 		<>
-			<Text color='gray.500' mb={4} fontWeight='medium'>
+			<Text color='gray.300' mb={4} fontWeight='medium'>
 				Выбери дополнительные ингредиенты:
 			</Text>
 
@@ -24,11 +24,13 @@ export const IngredientsSection = ({
 						key={ingredient.id}
 						checked={selectedIngredients.includes(ingredient.id)}
 						onChange={() => toggleIngredient(ingredient.id)}
+						cursor='pointer'
 					>
 						<Checkbox.HiddenInput />
 						<Checkbox.Control
 							borderColor='orange.300'
 							_checked={{ bg: 'orange.500', borderColor: 'orange.500' }}
+							cursor='pointer'
 						/>
 						<Checkbox.Label ml={2} fontSize='md' fontWeight='medium'>
 							{ingredient.name}{' '}

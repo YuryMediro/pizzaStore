@@ -5,33 +5,65 @@ interface DeliveryInfoSectionProps {
 	userData: UserInfo
 }
 
-export const DeliveryInfoSection = ({userData}: DeliveryInfoSectionProps) => {
+export const DeliveryInfoSection = ({ userData }: DeliveryInfoSectionProps) => {
 	return (
-		<VStack align='start'>
-			<HStack>
-				<Badge colorPalette='blue' borderRadius='full' px={3} py={1}>
+		<VStack align='start' overflow='hidden'>
+			<HStack maxWidth={'100%'}>
+				<Badge colorPalette='gray' borderRadius='full' px={3} py={1}>
 					Имя:
 				</Badge>{' '}
-				<Text color='black'>{userData.name}</Text>
+				<Text
+					color='black'
+					textOverflow='ellipsis'
+					maxHeight='100px'
+					whiteSpace='nowrap'
+					overflow='hidden'
+				>
+					{userData.name}
+				</Text>
 			</HStack>
-			<HStack>
-				<Badge colorPalette='green' borderRadius='full' px={3} py={1}>
+			<HStack maxWidth={'100%'}>
+				<Badge colorPalette='gray' borderRadius='full' px={3} py={1}>
 					Телефон:
 				</Badge>{' '}
-				<Text color='black'>{userData.phone}</Text>
+				<Text
+					color='black'
+					textOverflow='ellipsis'
+					maxHeight='100px'
+					whiteSpace='nowrap'
+					overflow='hidden'
+				>
+					{userData.phone}
+				</Text>
 			</HStack>
-			<HStack>
-				<Badge colorPalette='purple' borderRadius='full' px={3} py={1}>
+			<HStack maxWidth={'100%'}>
+				<Badge colorPalette='gray' borderRadius='full' px={3} py={1}>
 					Адрес:
 				</Badge>{' '}
-				<Text color='black'>{userData.address}</Text>
+				<Text
+					color='black'
+					textOverflow='ellipsis'
+					maxHeight='100px'
+					whiteSpace='nowrap'
+					overflow='hidden'
+				>
+					{userData.address}
+				</Text>
 			</HStack>
 			{userData.comment && (
-				<HStack>
+				<HStack maxWidth={'100%'}>
 					<Badge colorPalette='gray' borderRadius='full' px={3} py={1}>
 						Комментарий:
 					</Badge>{' '}
-					<Text color='black'>{userData.comment}</Text>
+					<Text
+						color='black'
+						textOverflow='ellipsis'
+						maxHeight='100px'
+						whiteSpace='nowrap'
+						overflow='hidden'
+					>
+						{userData.comment}
+					</Text>
 				</HStack>
 			)}
 		</VStack>

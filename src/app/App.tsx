@@ -10,7 +10,7 @@ function App() {
 			<Box minH='100vh' bg='gray.300' py={8}>
 				<Container centerContent>
 					<Routes>
-						<Route path='/pizzaStore' element={<HomePage />} />
+						<Route path='/pizzaStore/' element={<HomePage />} />
 						<Route path='/pizzaStore/cart' element={<CartPage />} />
 					</Routes>
 				</Container>

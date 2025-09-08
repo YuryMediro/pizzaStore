@@ -20,7 +20,6 @@ export const CartItemRow = ({
 	onUpdateQuantity,
 	onRemoveItem,
 }: CartItemRowProps) => {
-	const cardBg = useColorModeValue('white', 'gray.600')
 	const selectedIngs = item.ingredients.filter(ing =>
 		item.selectedIngredients.includes(ing.id)
 	)
@@ -42,14 +41,14 @@ export const CartItemRow = ({
 		<Box
 			p={4}
 			borderRadius='lg'
-			bg={cardBg}
+			bg={useColorModeValue('white', 'gray.800')}
 			boxShadow='sm'
 			border='1px solid'
-			borderColor={useColorModeValue('gray.200', 'gray.700')}
+			borderColor={useColorModeValue('gray.200', 'gray.600')}
 		>
 			<HStack justify='space-between' align='start' flexWrap='wrap' gap={4}>
-				<VStack align='start'>
-					<Text fontWeight='medium' fontSize='lg' color='gray.800'>
+				<VStack align='start' width={'100%'} lg={{ flex: '1' }}>
+					<Text fontWeight='medium' fontSize='lg' color='gray.200'>
 						{item.name} x{item.quantity}
 					</Text>
 					{selectedIngs.length > 0 && (
