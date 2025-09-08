@@ -43,7 +43,7 @@ export const CartPage = () => {
 				totalPrice={getTotalPrice()}
 				onOrderConfirm={() => {
 					clearCart()
-					navigate('/pizzaStore')
+					navigate('/pizzaStore/')
 				}}
 			/>
 
